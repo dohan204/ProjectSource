@@ -9,23 +9,19 @@ using System.Threading.Tasks;
 
 namespace BussinessAccessLayer
 {
-    public class BUserAccount
+    public class BUserRole
     {
-        public static bool IsExitesAccount(UserAccount userAccount)
-        {
-            return DUserAccount.IsExitesAccount(userAccount);
-        }
-        public static void UpdatePassword(UserAccount userAccount)
-        {
-            DUserAccount.UpdatePassword(userAccount);
-        }
+        //private static DataTable GetAll()
+        //{
+        //   return DUserRole.GetAll();
+        //}
         public static void NewUserAccount(UserAccount userAccount)
         {
             DUserAccount.NewUser(userAccount);
         }
         public static DataTable GetAll()
         {
-            return DUserAccount.GetAll();
+            return DUserRole.GetAll();
         }
         public static void UpdateUser(UserAccount userAccount)
         {
@@ -35,9 +31,6 @@ namespace BussinessAccessLayer
         {
             DUserAccount.DeleteUser(UserID);
         }
-        public static DataTable Search(string keyword, string roleFilter)
-        {
-            return DUserAccount.Search(keyword, roleFilter);
-        }
+
     }
 }
