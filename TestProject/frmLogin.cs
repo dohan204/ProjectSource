@@ -28,5 +28,23 @@ namespace TestProject
             frmManageUser frmManage = new frmManageUser();
             frmManage.ShowDialog();
         }
+
+        private void mnManagerSubject_Click(object sender, EventArgs e)
+        {
+            frmManagerSubject frmManagerSubject = new frmManagerSubject();
+            frmManagerSubject.ShowDialog();
+        }
+
+        private void quảnLýCâuHỏiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmManagerQuestion frmManagerQuestion = new frmManagerQuestion();
+            frmManagerQuestion.ShowDialog();
+        }
+
+        private void làmBàiThiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmOption frm = new frmOption();
+            frm.ShowDialog();
+        }
     }
 }

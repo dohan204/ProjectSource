@@ -8,12 +8,12 @@ using System.Windows.Forms;
 
 namespace TestProject
 {
-    public partial class frmManageUser : Form
+    public partial class frmManagerQuestion : Form
     {
         private string strMessageInputSeacrh = "Nhập từ khóa tìm kiếm";
         private int rowIndex = 0; // lưu lại vị trí của các row
         private bool isNewUser = false;
-        public frmManageUser()
+        public frmManagerQuestion()
         {
             InitializeComponent();
             SetStyle(ControlStyles.ResizeRedraw, true);
@@ -35,52 +35,76 @@ namespace TestProject
                 e.Graphics.FillRectangle(brush, rc);
             }
         }
-        // lấy các thuộc tính từ lớp UserAccount
-        private UserAccount GetInfor()
+        // lấy các thuộc tính từ lớp Question
+        private Question GetInfor()
         {
-            int.TryParse(txtUserId.Text, out int userId);
             // khởi tạo đố tượng userACCount
-            UserAccount userAccount = new UserAccount();
-            // gán giá trị cho từng thuộc tính ở đây
-            userAccount.UserId = userId;
-            userAccount.RoleId = cbbRole.SelectedValue.ToString();
-            userAccount.UserName = txtUsername.Text.Trim();
-            userAccount.Password = txtPassword.Text.Trim(); // cần phải mã hóa
+            //Question question = new Question();
+            //// gán giá trị cho từng thuộc tính ở đây
+            //int.TryParse(txtQuestionId.Text, out int questionId);
+            //question.QuestionId = questionId;
+            //question.QContent= txtQContent.Text.Trim();
+            //question.Answer = txtAnswer.Text.Trim();
+            //question.OptionA = txtOptionA.Text.Trim();
+            //question.OptionB = txtOptionB.Text.Trim();
+            //question.OptionC = txtOptionC.Text.Trim();
+            //question.OptionD = txtOptionD.Text.Trim();
+            //question.SubjectID = cbbSubject.SelectedValue.ToString();
 
-            userAccount.Email = txtEmail.Text.Trim();
-            userAccount.PhoneNumber = txtPhone.Text.Trim();
-            userAccount.Address = txtAddress.Text.Trim();
-            userAccount.FullName = txtFullname.Text.Trim();
-            userAccount.Birthday = dtBirthday.Value;
-            userAccount.CreatedAt = DateTime.Now;
-            userAccount.CreatedBy = "Han";
-            userAccount.ModifiedAt = DateTime.Now;
-            userAccount.ModifiedBy = "Han";
-            return userAccount;
+            //question.CreatedAt = DateTime.Now;
+            //question.CreatedBy = "Han";
+
+            //return question;
+            // Gán giá trị cho đối tượng question
+            Question question = new Question();
+
+            int.TryParse(txtQuestionId.Text, out int questionId);
+            question.QuestionId = questionId;
+            question.QContent = txtQContent.Text.Trim();
+            question.Answer = txtAnswer.Text.Trim();
+            question.OptionA = txtOptionA.Text.Trim();
+            question.OptionB = txtOptionB.Text.Trim();
+            question.OptionC = txtOptionC.Text.Trim();
+            question.OptionD = txtOptionD.Text.Trim();
+            question.SubjectId = cbbSubject.SelectedValue.ToString();
+            //if (cbbSubject.SelectedValue != null)
+            //{
+            //    question.SubjectID = cbbSubject.SelectedValue.ToString();
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Vui lòng chọn môn học!");
+            //    //return; // hoặc xử lý logic khác nếu cần
+            //}
+
+            question.CreatedAt = DateTime.Now;
+            question.CreatedBy = "Han";
+            return question;
+
         }
         //2.
-        private bool IsValidUser(UserAccount user)
+        private bool IsValidQuestion(Question question)
         {
             string strMessage = string.Empty;
-            if (string.IsNullOrEmpty(user.UserName))
+            if (string.IsNullOrEmpty(question.QContent))
             {
-                strMessage = "Tài khoản không được để trống";
+                strMessage = "Noi dung không được để trống";
             }
-            if(string.IsNullOrEmpty(user.Password))
+            if(string.IsNullOrEmpty(question.OptionA))
             {
-                strMessage += "Mật khẩu không được để trống\n";
+                strMessage += "Lua chon A không được để trống\n";
             }
-            if(string.IsNullOrEmpty(user.FullName))
+            if(string.IsNullOrEmpty(question.OptionB))
             {
-                strMessage += "Họ tên không được để trống\n";
+                strMessage += "lua chon B không được để trống\n";
             }
-            if (string.IsNullOrEmpty(user.Email))
+            if (string.IsNullOrEmpty(question.OptionC))
             {
-                strMessage += "Email không được để trống\n";
+                strMessage += "lua chon C không được để trống\n";
             }
-            if (string.IsNullOrEmpty(user.PhoneNumber))
+            if (string.IsNullOrEmpty(question.OptionD))
             {
-                strMessage += "Số điện thoại không được để trống\n";
+                strMessage += " Lua chon D không được để trống\n";
             }
             // kiểm tra thông tin có hợp lệ hay không
             if (!string.IsNullOrEmpty(strMessage))
@@ -97,12 +121,12 @@ namespace TestProject
         }
         private void AddNewUser()
         {
-            var getUser = GetInfor();
-            if(!IsValidUser(getUser))
+            var getQuestion = GetInfor();
+            if(!IsValidQuestion(getQuestion))
                 return;// đóng từ vòng gửi xe
             try
             {
-                BUserAccount.NewUserAccount(getUser);
+                BQuestion.NewQuestion(getQuestion);
             }
             catch (Exception ex)
             {
@@ -111,41 +135,26 @@ namespace TestProject
         }
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            /*
-             * CÁC BƯỚC THỰC HIỆN 
-             * 1. LẤY thông tin từ giao diện
-             * 2. kiểm tra thông tin có hợp lệ hay không
-             * 3. thao tác với cơ sở dữ liệu
-             * 
-             */
-            //var userCreate = GetSubjectInfo();
-          
-
             isNewUser = true;
             ShowHideButton(true);
-            AddNewUser();
             SetEnableControl(true);
-            txtUserId.Text = "0";
-            txtUserId.ReadOnly = true; // chỉ đọc
+            AddNewUser();
+           
+            txtQuestionId.Text = "0";
+            txtQuestionId.ReadOnly = true; // chỉ đọc
         }
         private void loadData()
         {
             try
             {
+
                 grvData.AutoGenerateColumns = false; // kh cho nó tự động sinh cột
-                grvData.DataSource = BUserAccount.GetAll();
+                grvData.DataSource = BQuestion.GetAll();
 
-                /// load data for UI
-                /// 
-                DataTable dtTable = BUserRole.GetAll();
-                cbbRole.DataSource = dtTable;
-                cbbRole.DisplayMember = "RoleName";
-                cbbRole.ValueMember = "RoleId";
+                cbbSubject.DataSource = BSubject01.GetAll();
+                cbbSubject.DisplayMember = "SubjectName";
+                cbbSubject.ValueMember = "SubjectID";
 
-                // load data for cbbRoleSelect
-                cbbRoleSelect.DataSource = dtTable;
-                cbbRoleSelect.DisplayMember = "RoleName";
-                cbbRoleSelect.ValueMember = "RoleId";
             }
             catch (Exception ex)
             {
@@ -153,14 +162,15 @@ namespace TestProject
             }
         }
         // tải dữ liệu lên khi form load
-        private void frmManageUser_Load(object sender, EventArgs e)
+        private void frmManagerQuestion_Load(object sender, EventArgs e)
         {
             loadData();
             SetEnableControl(false);
             // load data for cbb
-            cbbRole.DataSource = BUserRole.GetAll();
-            cbbRole.DisplayMember = "RoleName";
-            cbbRole.ValueMember = "RoleId";
+            
+            //cbbSubject.DataSource = BUserRole.GetAll();
+            //cbbSubject.DisplayMember = "RoleName";
+            //cbbSubject.ValueMember = "RoleId";
             //grvData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
         private void SetEnableControl(bool isSuccess = true)
@@ -203,20 +213,15 @@ namespace TestProject
             {
                 // lấy ra dòng khi người dùng click  
                 DataGridViewRow row = grvData.Rows[rowIndex];
-                row.Tag = row.Cells["UserId"].Value.ToString();
-
-                txtUserId.Text = row.Cells["UserId"].Value?.ToString() ?? "";
-
-
-                txtUsername.Text = row.Cells["UserName"].Value.ToString();
-                txtAddress.Text = row.Cells["Address"].Value.ToString();
-                txtEmail.Text = row.Cells["Email"].Value.ToString();
-
-                txtFullname.Text = row.Cells["FullName"].Value.ToString();
-                txtPassword.Text = row.Cells["Password"].Value.ToString();
-                txtPhone.Text = row.Cells["PhoneNumber"].Value.ToString();
-                cbbRole.SelectedValue = row.Cells["RoleId"].Value.ToString();
-                dtBirthday.Text = row.Cells["Birthday"].FormattedValue.ToString();
+                //row.Tag = row.Cells["UserId"].Value.ToString();
+                txtQuestionId.Text = row.Cells["QuestionId"].Value?.ToString() ?? "";
+                txtAnswer.Text = row.Cells["Answer"].Value.ToString();
+                txtQContent.Text = row.Cells["QContent"].Value.ToString();
+                txtOptionD.Text = row.Cells["OptionD"].Value.ToString();
+                txtOptionC.Text = row.Cells["OptionC"].Value.ToString();
+                txtOptionA.Text = row.Cells["OptionA"].Value.ToString();
+                txtOptionB.Text = row.Cells["OptionB"].Value.ToString();
+                cbbSubject.SelectedValue = row.Cells["SubjectId"].Value.ToString();
                 // Fix for CS1955: Use the Value property instead of FormattedValueType  
                 //if (row.Cells["Birthday"].Value != null)
                 //{
@@ -237,17 +242,17 @@ namespace TestProject
 
         }
 
-        private void UpdateUser()
+        private void UpdateQuestion()
         {
-            var editUser = GetInfor();
+            var editQuestion = GetInfor();
             //MessageBox.Show(editUser.UserId.ToString());
             //MessageBox.Show($"UserId: {editUser.UserId}, UserName: {editUser.UserName}");
 
-            if (!IsValidUser(editUser))
+            if (!IsValidQuestion(editQuestion))
                 return;// đóng từ vòng gửi xe
             try
             {
-                BUserAccount.UpdateUser(editUser);
+                BQuestion.UpdateUser(editQuestion);
                 MessageBox.Show("Cập nhật tài khoản thành công!", "Thông báo!");
                 // tải lại dữ liệu cho người dùng nhìn thấy
                 loadData();
@@ -263,13 +268,13 @@ namespace TestProject
             isNewUser = false;
             ShowHideButton(true);
             SetEnableControl(true);
-            txtUserId.ReadOnly = true; // chỉ đọc
+            txtQuestionId.ReadOnly = true; // chỉ đọc
             //UpdateSubject();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            int.TryParse(txtUserId.Text, out int userId);
+            int.TryParse(txtQuestionId.Text, out int userId);
             if (userId == 0)
             {
                 MessageBox.Show("Vui long chon nguoi dung can xoa", "Thong bao");
@@ -277,7 +282,7 @@ namespace TestProject
             }
             try
             {
-                string fullName = txtFullname.Text.Trim();
+                string fullName = txtAnswer.Text.Trim();
                 // kiem tra xem nguoi dung có muốn xóa thật không
                 if (MessageBox.Show($"Bạn có chắc chắn xóa người dùng {fullName}","Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
@@ -302,8 +307,13 @@ namespace TestProject
                 string keyword = txtSearch.Text.Trim();
                 if (keyword.Equals(strMessageInputSeacrh))
                     keyword = string.Empty;
-                string roleFilter = cbbRoleSelect.SelectedValue.ToString();
-                grvData.DataSource = BUserAccount.Search(keyword, roleFilter);
+                //if (string.IsNullOrEmpty(keyword))
+                //{
+                //    MessageBox.Show("Vui long nhap tu khoa can tim kiem", "Thong bao");
+                //    return;
+                //}
+
+                grvData.DataSource = BQuestion.Search(keyword);
             }
             catch (Exception ex)
             {
@@ -332,13 +342,14 @@ namespace TestProject
 
         private void newUser()
         {
-            var getNewUser = GetInfor();
-            if (!IsValidUser(getNewUser))
+            var newQuestion = GetInfor();
+            if (!IsValidQuestion(newQuestion))
                 return;// đóng từ vòng gửi xe
             try
             {
-                BUserAccount.NewUserAccount(getNewUser);
-                MessageBox.Show("Thêm tài khoản thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                BQuestion.NewQuestion(newQuestion);
+                loadData();
+                //MessageBox.Show("Thêm tài khoản thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -347,6 +358,22 @@ namespace TestProject
         }
         private void btnCannel_Click(object sender, EventArgs e)
         {
+            // nếu là thêm mới thì xóa trắng các textbox
+            if (!isNewUser)
+            {
+                txtQuestionId.Text = "0";
+                txtQContent.Clear();
+                txtAnswer.Clear();
+                txtOptionA.Clear();
+                txtOptionB.Clear();
+                txtOptionC.Clear();
+                txtOptionD.Clear();
+            }
+            else
+            {
+                // nếu là sửa thì chỉ cần load lại dữ liệu
+                loadData();
+            }
             ShowHideButton(false);
             ShowDetailData(rowIndex);
             SetEnableControl(false);
@@ -357,9 +384,11 @@ namespace TestProject
             if (isNewUser)
                 newUser();
             else
-                UpdateUser();
+                UpdateQuestion();
             ShowHideButton(false);
             SetEnableControl(false);
         }
+
+       
     }
 }
