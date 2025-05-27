@@ -31,5 +31,13 @@ namespace BussinessAccessLayer
         {
             return DQuestion.Search(keyword);
         }
+        public static DataTable getQuestionForTest(string subjectId, int numberOfQuestion)
+        {
+            return DQuestion.GetQuestionForTest(subjectId, numberOfQuestion);
+        }
+        public static Question getOneQuestion(int questionId)
+        {
+            return DQuestion.getOneQuestion(questionId);
+        }
     }
 }

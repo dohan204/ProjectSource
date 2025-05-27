@@ -164,5 +164,30 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
+        public static UserAccount GetUserInfor(string userName)
+        {
+            try
+            {
+                SqlDataReader reader = SqlHelper.ExecuteReader(conStr, CommandType.StoredProcedure, "UserAccount_GetUserInfor",
+                                                                new SqlParameter("@UserName", userName));
+                // Initialize a UserAccount object
+                UserAccount user = new UserAccount();
+                if (reader.Read())
+                {
+                    user.UserName = reader["UserName"].ToString();
+                    user.FullName = reader["FullName"].ToString();
+                    user.Email = reader["Email"].ToString();
+                    user.Birthday = DateTime.Parse(reader["Birthday"].ToString());
+                    user.UserId = int.Parse(reader["UserId"].ToString());
+                    user.RoleId = reader["RoleId"].ToString();
+                }
+                reader.Close();
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

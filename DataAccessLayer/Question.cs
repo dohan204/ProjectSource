@@ -7,6 +7,8 @@ using System.Text;
 using System.Data;
 using System.Threading.Tasks;
 using Microsoft.ApplicationBlocks.Data;
+using System.Diagnostics.Contracts;
+using System.Runtime.InteropServices;
 
 namespace DataAccessLayer
 {
@@ -106,6 +108,47 @@ namespace DataAccessLayer
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+        public static DataTable GetQuestionForTest(string subjectId, int numberOfQuestion)
+        {
+            try
+            {
+                DataTable dtData = SqlHelper.ExecuteDataset(conStr, CommandType.StoredProcedure,
+                                                        "GetQuestionForTest", new SqlParameter("@SubjectId", subjectId),
+                                                        new SqlParameter("@NumberOfQuestion", numberOfQuestion)).Tables[0];
+                return dtData;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public static Question getOneQuestion(int questionId)
+        {
+            try
+            {
+                SqlDataReader reader = SqlHelper.ExecuteReader(conStr,CommandType.StoredProcedure,
+                                                        "GetOneQuestion", new SqlParameter("@QuestionId", questionId));
+                Question question = new Question();
+                if (reader.Read())
+                {
+                    question.QuestionId = questionId;
+                    question.QContent = reader["QContent"].ToString();
+                    question.OptionA = reader["OptionA"].ToString();
+                    question.OptionB = reader["OptionB"].ToString();
+                    question.OptionC = reader["OptionC"].ToString();
+                    question.OptionD = reader["OptionD"].ToString();
+                    question.Answer = reader["Answer"].ToString();
+                }
+                reader.Close();
+                return question;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
             }
         }
     }

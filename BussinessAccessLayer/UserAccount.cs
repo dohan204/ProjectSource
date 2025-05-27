@@ -39,5 +39,9 @@ namespace BussinessAccessLayer
         {
             return DUserAccount.Search(keyword, roleFilter);
         }
+        public static UserAccount GetUserInfor(string userName)
+        {
+            return DUserAccount.GetUserInfor(userName);
+        }
     }
 }

@@ -13,6 +13,7 @@ using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TestProject.Common;
 
 namespace TestProject
 {
@@ -53,8 +54,8 @@ namespace TestProject
             subject.SubjectName = txtSubjectName.Text.Trim();
             subject.Description = txtDescription.Text.Trim();
             subject.CreatedAt = DateTime.Now;
-            subject.CreatedBy = "Admin";
-            subject.ModifiedBy = "Admin";
+            subject.CreatedBy = Sessionn.LogonUser.UserName;
+            subject.ModifiedBy = Sessionn.LogonUser.UserName;
             subject.ModifiedAt = DateTime.Now;
             return subject;
         }

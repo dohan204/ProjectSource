@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using TestProject.Common;
 
 namespace TestProject
 {
@@ -78,7 +79,7 @@ namespace TestProject
             //}
 
             question.CreatedAt = DateTime.Now;
-            question.CreatedBy = "Han";
+            question.CreatedBy = Sessionn.LogonUser.UserName;
             return question;
 
         }
